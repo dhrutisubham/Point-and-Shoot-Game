@@ -1,0 +1,52 @@
+body {
+    background: linear-gradient(to bottom, rgb(94, 94, 233), rgb(214, 224, 242));
+    width:100vw;
+    height: 100vh;
+    overflow: hidden;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+
+}
+
+#canvas1 {
+    
+    position: absolute;
+    left: 0%;
+    top:0%;
+    width: 100%;
+    height: 100%;
+    /* background-color: black;
+     */
+    /* border:4px solid white ; */
+}
+
+#collisionDetection {
+    opacity: 0;
+   
+    /* background-color: white; */
+}
+#scoreCard {
+    width: 40%;
+    text-shadow: 2px 2px #000000AA;
+    /* background-color: black; */
+    padding-left: 2vh;
+    
+    font-family: 'Gotham';
+    color: #EFEFEF;
+    font-size: 6vh;
+}
+
+#bullets {
+    opacity: 0.95;
+    position:relative;
+    width: 40%;
+    text-shadow: 2px 2px #000000AA;
+    /* background-color: black; */
+    padding-left: 2vh;
+    margin-top: -4vh;
+    
+    font-family: 'Gotham';
+    color: #FFFFFF;
+    font-size: 4vh;
+}
