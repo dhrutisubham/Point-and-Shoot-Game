@@ -1,6 +1,7 @@
 /**@type {HTMLCanvasElement} */
 
-const canvas=document.getElementById('canvas1');
+window.addEventListener('load', function(){
+    const canvas=document.getElementById('canvas1');
 const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
@@ -225,3 +226,4 @@ function cursor(timestamp){
     requestAnimationFrame(cursor);
 }
 cursor(0);
+})
