@@ -25,7 +25,7 @@ body::before {
     background-image: url('pageBg.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    filter: brightness(0.5); 
+    filter: brightness(0.5) blur(2px); 
     z-index: -1;
 }
 
