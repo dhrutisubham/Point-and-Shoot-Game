@@ -8,8 +8,8 @@ canvas.height=1024;
 
 const collisionCanvas=document.getElementById('collisionDetection');
 const collCtx=collisionCanvas.getContext('2d');
-collisionCanvas.width=window.innerWidth;
-collisionCanvas.height=window.innerHeight;
+collisionCanvas.width=1024;
+collisionCanvas.height=1024;
 
 const scoreCard=document.getElementById('score');
 const bullets=document.getElementById('bulletCount');
