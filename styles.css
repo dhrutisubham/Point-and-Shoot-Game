@@ -2,13 +2,10 @@ body {
     width:100vw;
     height: 100vh;
     overflow: hidden;
-    /* -webkit-user-select: none; 
-    -ms-user-select: none; 
-    user-select: none;  */
     background-image: url('pageBg.jpg');
     background-repeat: no-repeat;
     filter:brightness(01);
-    background-size: cover; /* Fit the background image into the window */
+    background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,14 +26,7 @@ body::before {
     z-index: -1;
 }
 
-/* #canvas1 {
-    
-    position: absolute;
-    left: 0%;
-    top:0%;
-    width: 100%;
-    height: 100%;
-} */
+
 
 #canvas1 {
     position: relative;
@@ -55,32 +45,7 @@ body::before {
     position: absolute;
     opacity: 0;
 }
-/* #scoreCard {
-    display: none;
 
-    width: 40%;
-    
-    padding-left: 2vh;
-    
-    font-family: 'Gotham';
-    color: #EFEFEF;
-    font-size: 6vh;
-}
-
-#bullets {
-    display: none;
-    opacity: 0.95;
-    position:relative;
-    width: 40%;
-    text-shadow: 2px 2px #000000AA;
-    background-color: black;
-    padding-left: 2vh;
-    margin-top: -4vh;
-    
-    font-family: 'Gotham';
-    color: #FFFFFF;
-    font-size: 4vh;
-} */
 
 #clouds, #bgimage, #pageBg{
     display: none;
