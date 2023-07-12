@@ -59,3 +59,7 @@ body {
     color: #FFFFFF;
     font-size: 4vh;
 }
+
+#clouds, #bgimage{
+    display: none;
+}
