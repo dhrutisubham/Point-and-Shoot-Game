@@ -31,24 +31,14 @@ let gameFrame=0;
 let points=0;
 let bulletCount=3;
 
-
-
-
+let startGame=0;
 
 window.addEventListener('mousemove', (e)=>{
     let canvasPosition = canvas.getBoundingClientRect();
 
-    console.log('Canvas position:');
-    console.log('Top:', canvasPosition.top);
-    console.log('Left:', canvasPosition.left);
-    console.log('Bottom:', canvasPosition.bottom);
-    console.log('Right:', canvasPosition.right);
-
     let aw=canvasPosition.right-canvasPosition.left;
     let ah=canvasPosition.bottom-canvasPosition.top;
 
-    console.log(e.clientX);
-    console.log(e.clientY);
 
     if(e.clientX<canvasPosition.right && e.clientX>canvasPosition.left
         && e.clientY>canvasPosition.top && e.clientY<canvasPosition.bottom){
@@ -125,7 +115,7 @@ class Raven{
         this.height=this.spriteHeight*this.sizeMod;
         
         this.x=canvas.width;
-        this.y=Math.random()*(canvas.height- this.height);
+        this.y=Math.random()*(canvas.height- this.height-150);
         this.directionX=Math.random()*5+3;
         this.directionY=Math.random()*5-2.5;
         this.markedForDeletion=false;
@@ -155,7 +145,7 @@ class Raven{
             this.frame=(this.frame+1)%this.maxframe;
             this.flapTime=0;
         }
-        if((this.y+this.height>canvas.height || this.y<0) && !this.shot){
+        if((this.y+this.height>canvas.height-150 || this.y<0) && !this.shot){
             this.directionY*=-1;
         }  
     }
@@ -170,8 +160,12 @@ class Raven{
 function shootScore(ctx){
         ctx.save();
         ctx.textAlign='left';
-        ctx.fillStyle='white';
         ctx.font='60px Staatliches';
+        ctx.shadowOffsetX=0;
+        ctx.shadowOffsetY=0;
+        ctx.shadowColor='black';
+        ctx.shadowBlur=25;
+        ctx.fillStyle='white';
         ctx.fillText('Score: '+points, 50, 100);
         ctx.restore();
 }
@@ -180,6 +174,10 @@ function bulletUpdate(ctx){
         ctx.save();
         ctx.textAlign='left';
         ctx.fillStyle='white';
+        ctx.shadowOffsetX=0;
+        ctx.shadowOffsetY=0;
+        ctx.shadowColor='black';
+        ctx.shadowBlur=20;
         ctx.font='40px Staatliches';
         ctx.fillText('Bullets: '+bulletCount, 50, 150);
         ctx.restore();
@@ -188,6 +186,8 @@ function bulletUpdate(ctx){
 window.addEventListener('click',function(e){
     let gunSound=new Audio();
     gunSound.src='pistol2.wav';
+
+    if(startGame){
     const pixelClickColor=collCtx.getImageData(posX, posY, 10, 10);
     const pc=pixelClickColor.data;
     if(bulletCount){
@@ -207,13 +207,19 @@ window.addEventListener('click',function(e){
 
     }
     });
-}
-else{
-    bulletCount=3;
-    score=0;
-    animate(0);
-}
+    }
+    else{
+        location.reload();
+    }
+    }
+    else{
+        gunSound.play();
+        startGame=1;
+    }
 });
+
+let bgimage=clouds;
+let bgx=0;
 
 function gameOver(){
     ctx.fillStyle='white';
@@ -224,27 +230,38 @@ function animate(timestamp){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     collCtx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(aim, posX-104*0.3, posY-104*0.3, 208*0.3, 209*0.3);
-    
-    let deltaTime=timestamp-lastTime;
-    lastTime= timestamp;
-    timetoNextRaven+=deltaTime;
+    if(startGame)
+    {
+        ctx.drawImage(bgimage, bgx, 0, canvas.width, 1024, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(bgimage, bgx-3413, 0, canvas.width, 1024, 0, 0, canvas.width, canvas.height);
+        bgx=(bgx+2)%3414;
+        
+        let deltaTime=timestamp-lastTime;
+        lastTime= timestamp;
+        timetoNextRaven+=deltaTime;
 
-    if(timetoNextRaven>ravenInterval){
-        ravens.push(new Raven());
-        timetoNextRaven=0;
-        ravens.sort(function(a, b){
-            return a.width-b.width;
-        })
-    };
-    [...ravens, ...explosions].forEach(object=>object.update(deltaTime));
-    [...ravens, ...explosions].forEach(object=>object.draw());
-    ravens=ravens.filter(object=>!object.markedForDeletion);
+        if(timetoNextRaven>ravenInterval){
+            ravens.push(new Raven());
+            timetoNextRaven=0;
+            ravens.sort(function(a, b){
+                return a.width-b.width;
+            })
+        };
+        [...ravens, ...explosions].forEach(object=>object.update(deltaTime));
+        [...ravens, ...explosions].forEach(object=>object.draw());
+        ravens=ravens.filter(object=>!object.markedForDeletion);
 
-    
-    explosions=explosions.filter(object2=>!object2.markedForDeletion);
+        
+        explosions=explosions.filter(object2=>!object2.markedForDeletion);
 
-    shootScore(ctx);
-    bulletUpdate(ctx);
+        shootScore(ctx);
+        bulletUpdate(ctx);
+    }
+    else{
+        let loadimage=document.getElementById('bgimage');
+        ctx.drawImage(loadimage, bgx, 0, canvas.width, 1024, 0, 0, canvas.width, canvas.height);
+
+    }
     if(bulletCount){
     requestAnimationFrame(animate);
     }
@@ -261,7 +278,6 @@ function cursor(){
     ctx.textAlign='center';
     ctx.fillText('GAME OVER', canvas.width*0.5, canvas.height*0.5-40);
     ctx.fillStyle='#000000DD';
-
     ctx.fillText('Your score is: ' +points, canvas.width*0.5, canvas.height*0.5+40);
     }
     ctx.drawImage(aim, posX-104*0.3, posY-104*0.3, 208*0.3, 209*0.3);
